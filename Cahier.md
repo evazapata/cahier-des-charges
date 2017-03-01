@@ -3,7 +3,7 @@
 3. À chaque nouvelle connexion, un nouveau thread est créé. Quand la connexion est fermée, on le termine.
 4. Nombre limité de connexions en parallèle. 100 ? Possible de modifier cette valeur dans les réglages.
 5. Si le nombre maximal de connexions a été atteint, on envoie un message d'alerte au client.
-6. Un client envoie la première musique. Celle-ci est récupérée et sauvegardée dans un "cache" local.
+6. Un client envoie la première musique. Celle-ci est récupérée et sauvegardée dans un cache local.
 7. Stockage de chaque musique dans le cache pendant un temps déterminé après la coupure du serveur. 6 heures ? Possible de modifier cette valeur dans les réglages.
 8. On récupère le hash de chaque fichier streamé pour ensuite l'utiliser afin de récupérer le fichier dans le cache s'il existe déjà.
 9. Vérification que le fichier envoyé par le client est bien un fichier audio. Si ce n'est pas le cas, envoi d'une alerte au client.
@@ -18,12 +18,12 @@
 18. Une playlist est mise à jour dans la base de données jusqu'à ce que le serveur se coupe.
 19. Dans chaque playlist présente dans la base de données, seules les métadonnées des musiques sont enregistrées (titre, artiste, durée).
 20. Un client peut choisir parmi une liste de serveurs locaux, si plusieurs sont disponibles.
-21. Un client est caractérisé par un pseudo et un score de karma.
-22. Le score de karma correspond aux *upvotes* et *likes* d'une playlist.
+21. Un utilisateur est caractérisé par un pseudo et un score de karma.
+22. Le score de karma correspond aux *upvotes* d'une musique et aux *likes* d'une playlist.
 23. Le score de karma d'un utilisateur est augmenté d'un point si une des musiques qu'il a proposé est *upvotée*.
 24. Le score de karma d'un utilisateur est diminué d'un point si une des musiques qu'il a proposé est *downvotée*.
 25. Le score de karma d'un utilisateur est augmenté de 10 points si une de ces playlists est *likée*.
-26. Le score de karma d'un utilisateur est diminué de 10 points si une de ces playlists n'est plus *likée* par un autre utilisateur.
+26. Le score de karma d'un utilisateur est diminué de 10 points si une de ses playlists n'est plus *likée* par un autre utilisateur.
 27. Une playlist est caractérisée par une liste de musiques, un titre et un créateur.
 28. Un utilisateur peut associer son compte SoundCloud à son compte de l'application afin de streamer des musiques depuis SoundCloud.
 29. Lors de la création d'un compte, l'utilisateur doit renseigner nom, prénom, pseudo, email et mot de passe.
