@@ -6,8 +6,8 @@ La musique a une part importante dans toute manifestation (anniversaire, concert
 ## Objectif
 Nous souhaitons proposer une application de type client-serveur qui permet aux différents utilisateurs de proposer leur propre musique au serveur, qui les jouera sur un système audio au fur et à mesure de l'événement.
 
-## Périmètre
-Il s'agit ici de développer une application client-serveur avec interface graphique qui fonctionnera au niveau du réseau local. Il ne s'agit pas de réaliser une application client-serveur qui permettra de proposer de la musique à n'importe quel serveur n'importe où dans le monde. De plus, le serveur ne pourra pas gérer un nombre illimité d'utilisateurs et pourra lire un nombre limité de formats.
+## Limitations
+Il s'agit ici de développer une application de type client-serveur multi-utilisateurs avec interface graphique qui fonctionnera au niveau du réseau local. Il ne s'agit pas de réaliser une application client-serveur qui permettra de proposer de la musique à n'importe quel serveur n'importe où dans le monde. De plus, le serveur ne pourra pas gérer un nombre illimité d'utilisateurs et lira un nombre restrints de formats.
 
 ## Fonctionnalités importantes
 Les fonctionnalités listées ci-dessous (dans l'ordre d'importance) sont nécessaires au bon fonctionnement de l'application.
@@ -15,7 +15,10 @@ Les fonctionnalités listées ci-dessous (dans l'ordre d'importance) sont néces
 ### Côté serveur
 - Fonction: Interface utilisateur
   - Objectif: Interface simplifée pour utiliser le logiciel
-  - Description: Selon le mockup en annexe
+  - Description: Voir le mockup en annexe
+    - Ajout de musiques locales à l'application
+    - Récupération des méta-données des musiques et mise en liste
+    - Voir les musiques en cours de lecture (queue de lecture)
   - Contraintes: La fenêtre de peut pas se redimensionner
 
 
@@ -54,7 +57,7 @@ Les fonctionnalités listées ci-dessous (dans l'ordre d'importance) sont néces
   - Description: Le client transfère de la musique au serveur qui sera ensuite lue
   - Contraintes:
     - Un client ne peut envoyer qu'une fois la musique sur le serveur
-    - \+ voir point ci-dessous
+    - \+ voir point "Accepter ou refuser l'ajout de nouvelles musiques"
 
 
 - Fonction: Ajout de la musique à la base de données
@@ -105,10 +108,52 @@ Les fonctionnalités listées ci-dessous (dans l'ordre d'importance) sont néces
 
 
 ### Côté client
-- Fonction:
-  - Objectif:
-  - Description:
+- Fonction: Interface utilisateur
+  - Objectif: Interface simplifée pour utiliser le logiciel
+  - Description: Voir le mockup en annexe
+    - Voir les serveurs accessibles
+    - Pouvoir se connecter sur un serveur
+    - Voir la queue de lecture du serveur
+  - Contraintes: La fenêtre de peut pas se redimensionner
+
+
+- Fonction: Voir la liste des serveurs accessibles
+  - Objectif: Permet de choisir sur quel serveur se connecter
+  - Description: Lorsque l'application est lancée, le client voit les serveurs accessibles par leur nom et peut se connecter dessus
+  - Contraintes: -
+
+
+- Fonction: Accéder au serveur
+  - Objectif: Accéder aux fonctionnalités du serveur
+  - Description: Voir la liste de lecture, voter pour changer de musique/réorganiser la queue de lecture
+  - Contraintes: Les fonctionnalités sont limitées selon la configuration du serveur
+
+
+- Fonction: Ajouter de la musique au serveur
+  - Objectif: Permet au client d'ajouter de la musique sur le serveur pour la lecture
+  - Description: Un client peut ajouter sa musique locale à la queue de lecture du serveur
   - Contraintes:
+    - Le serveur peut refuser l'ajout de la musique si la configuration de ce dernier n'autorise plus l'ajout de nouvelles musiques
+    - Le client ne supporte que les fichiers avec des extensions .mp3 et .m4a
+
+
+- Fonction: Système de favoris/playlist
+  - Objectif: Sauvegarder les musiques pour les retrouver après l'événement
+  - Description: Sauve la musique/la queue de lecture dans la base de données locale (identique à la base de données du serveur, sans le chemin d'accès du fichier) au client selon s'il souhaite récupérer toute la musique jouée pendant la soirée, uniquement dès qu'il s'est connecté pour la première ou des musiques indépendantes avec possibilité de créer des playlists
+  - Contraintes:
+    - Un client ne peut pas enregistrer deux fois la même musique durant le même événement
+    - Un client doit pouvoir supprimer une musique de ses favoris/playlists
+    - Un client doit pouvoir supprimer une playlist avec toutes les chansons contenues dans cette playlist
+
+
+- Fonction: Système de vote
+  - Objectif: Changer de musique, agencer la queue de lecture
+  - Description: Donne la possibilité aux utilisateurs de changer/arranger la musique en fonction des goûts
+  - Contraintes: Un client qui vote deux fois pour la même action voit son action refusée
+
+
+### Commun aux deux parties de l'application
+Les clients ne peuvent pas modifier les paramètres du serveur.
 
 ## Fonctionnalités optionnelles
 Les fonctionnalitées listées ci-dessous ne sont pas nécessaires au bon fonctionnement de l'application mais pourront être réalisées si le temps le permet.
@@ -117,7 +162,7 @@ Les fonctionnalitées listées ci-dessous ne sont pas nécessaires au bon foncti
 - Fonction: Filtres de recherche
   - Objectif: Rechercher de la musique sur le serveur (queue de lecture et playlist)
   - Description: Rechercher et mettre en favoris/voter pour une musique en particulier
-  - Contraintes: Recherche limitée selon la base de données
+  - Contraintes: Recherche limitée aux informations contenues dans la base de données
 
 
 - Fonction: Configuration avancée du serveur
@@ -137,19 +182,36 @@ Les fonctionnalitées listées ci-dessous ne sont pas nécessaires au bon foncti
   - Description:
   - Contraintes:
 
+### Commun aux deux parties de l'application
+- Fonction: Support d'autres formats de musiques
+  - Objectif: Etendre les possibilités de lecture du serveur
+  - Description: FLAC, ALAC, etc.
+  - Contraintes: -
+
+
+- Fonction: Taille de fenêtre non-fixe
+  - Objectif: Permet de pouvoir utiliser l'application sur n'importe quelle écran avec n'importe quelle résolution
+  - Description: -
+  - Contraintes: Taille minimum requise
+
+
+- Fonction: Fusionner le code de l'application serveur et client
+  - Objectif: Permet à n'importe quel client de devenir serveur et inversément
+  - Description: -
+  - Contraintes: Les deux interfaces graphiques se voudront très similaires, sans les possibilités de modification des paramètres du serveur de la part des clients.
+
 ## Résumé du fonctionnement du programme
-1. Un serveur est lancé et est configuré selon les préférences de l'administrateur
-3. Le serveur est démarré et les clients peuvent s'y connecter
-4. Le client est lancé et voit la liste des serveurs actifs et disponibles
-5. Le client se connecte sur un serveur
-6. Le client peut se connecter sur le serveur
-7. Une fois connecté, il peut effectuer les fonctionnalités paramétrées sur le serveur:
+0. Un serveur est lancé et est configuré selon les préférences de l'administrateur
+0. Le serveur est démarré et les clients peuvent s'y connecter
+0. Le client est lancé et voit la liste des serveurs disponibles
+0. Le client se connecte sur un serveur
+0. Une fois connecté, il peut effectuer les fonctionnalités paramétrées sur le serveur:
   - Proposer de la nouvelle musique
   - Voter pour changer/organiser la musique
   - Enregistrer en favoris des musiques ou la liste de lecture
-8. Le serveur enregistre la musique en local et la lit au fur et à mesure de l'événement, en fonction des éventuelles préférences des utilisateurs
-9. Une fois l'événement terminé, la musique est conservée sur le serveur jusqu'à ce que l'administrateur décidé de nettoyer la base de données ou que la capacité maximum de stockage est atteinte
-10. Le client conserve une copie locale des pistes qui ont été jouées durant sa présence et peut, de ce fait, retrouver les morcaux qui lui ont plus lors de cet événement
+0. Le serveur enregistre la musique en local et la lit au fur et à mesure de l'événement, en fonction des éventuelles préférences des utilisateurs
+0. Une fois l'événement terminé, la musique est conservée sur le serveur jusqu'à ce que l'administrateur décide de nettoyer la base de données ou que la capacité maximum de stockage est atteinte
+0. Le client conserve une copie des méta-datas des musiques qui ont été jouées durant sa présence dans sa base de données locale et peut, de ce fait, retrouver les morcaux qui lui ont plu lors de cet événement
 
 ## Spécifications techniques
 L'application sera réalisée à l'aide des technologies suivantes:
@@ -172,9 +234,10 @@ Le projet se déroulera sur tout le semestre pour un total de 90 heures de trava
 Une méthologie AGILE sera appliquée afin d'avoir un suivi de l'évolution du travail.
 
 ## Rendu
-En plus des points évoqués dans les contraintes du cours PRO, le rendu sera de la forme suivante:
-- Un fichier .jar qui représentera le programme
-- Un fichier de configuration
+En plus des points évoqués dans les contraintes du cours PRO et selon les fonctionnalités importantes, le rendu sera de la forme suivante:
+- Un fichier .jar qui représentera le programme côté serveur
+- Un fichier de configuration du serveur
+- Un fichier .jar qui représente le programme côté client
 
 ## Indicateurs et évaluation des résultats
 Les différentes itérations de la méthodologie AGILE permettront de quantifier l'avancement du travail et sa bonne réalisation.
